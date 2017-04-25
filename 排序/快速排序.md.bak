@@ -1,0 +1,36 @@
+## 快速排序
+> 是一种不稳定的排序，采用了经典的分治的思想，在Java里面的Arrays.sort()就是使用快排实现的
+
+### 时间复杂度
+1. 平均复杂度为 O(N*logN)
+1. 最坏(元素基本有序,中轴选择总是最大或最小 、元素,此时快速排序退化成冒泡排序)退化为冒泡排序，时间复杂度为O(N^2)
+
+### 空间复杂度
+1. 不需要借助辅助空间，在原数组上进行交换
+
+---
+### 代码实现
+
+    public void quickSort(int[] list, int low, int high) {
+        if (low < high) {
+            int middle = getMiddle(list, low, high);  //将list数组进行一分为二
+            quickSort(list, low, middle - 1);        //对低字表进行递归排序
+            quickSort(list, middle + 1, high);       //对高字表进行递归排序
+        }
+    }
+
+    private static int getMiddle(int[] list, int low, int high) {
+        int tmp = list[low];    //数组的第一个作为中轴
+        while (low < high) {
+            while (low < high && list[high] > tmp) {
+                high--;
+            }
+            list[low] = list[high];   //比中轴小的记录移到低端
+            while (low < high && list[low] < tmp) {
+                low++;
+            }
+            list[high] = list[low];   //比中轴大的记录移到高端
+        }
+        list[low] = tmp;              //中轴记录到尾
+        return low;                   //返回中轴的位置
+    }
